@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --font-brush: "Yuji Syuku", "Noto Serif JP", serif;
+  --font-jp: "Noto Serif JP", "Hiragino Mincho ProN", serif;
+
+  --color-cream: #fdf8f0;
+  --color-cream-dark: #f5ece0;
+  --color-plum: #7c3f58;
+  --color-plum-light: #a45f7a;
+  --color-amber: #d4956a;
+  --color-warm-brown: #2d1f1f;
+  --color-muted: #8b6b6b;
+  --color-border: #e8d5c4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #fdf8f0;
+  font-family: "Noto Serif JP", "Hiragino Mincho ProN", serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
