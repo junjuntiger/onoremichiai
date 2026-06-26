@@ -22,9 +22,14 @@ export function AnswerForm({ questionIndex, questions, onBack, onPhraseReady }: 
   const question = questions[questionIndex];
   const color = QUESTION_COLORS[questionIndex % QUESTION_COLORS.length];
 
-  const [answer, setAnswer] = useState('');
-  const [feedback, setFeedback] = useState('');
-  const [step, setStep] = useState<Step>('input');
+  const today = new Date();
+  const dateStr = toDateString(today);
+
+  // 回答済みならAPIを呼ばず過去データを復元
+  const savedAnswer = getEntry(dateStr)?.answers?.[questionIndex];
+  const [answer, setAnswer] = useState(savedAnswer?.answer ?? '');
+  const [feedback, setFeedback] = useState(savedAnswer?.feedback ?? '');
+  const [step, setStep] = useState<Step>(savedAnswer?.feedback ? 'feedback' : 'input');
   const [generatingPhrase, setGeneratingPhrase] = useState(false);
 
   const { loading, error, generateFeedback, generatePhrase } = useAI();
@@ -33,8 +38,6 @@ export function AnswerForm({ questionIndex, questions, onBack, onPhraseReady }: 
     setAnswer((prev) => prev + text);
   });
 
-  const today = new Date();
-  const dateStr = toDateString(today);
   const dateJP = formatDateJP(today);
 
   const handleSubmit = async () => {
