@@ -4,18 +4,32 @@ const API_KEY = import.meta.env.VITE_GEMINI_API_KEY as string;
 const API_URL =
   'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent';
 
+interface GeminiPart {
+  text: string;
+  thought?: boolean;
+}
+
 interface GeminiResponse {
-  candidates: { content: { parts: { text: string }[] } }[];
+  candidates: { content: { parts: GeminiPart[] } }[];
 }
 
 async function callGemini(prompt: string): Promise<string> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30000);
+
   const response = await fetch(`${API_URL}?key=${API_KEY}`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
+    signal: controller.signal,
     body: JSON.stringify({
       contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: {
+        thinkingConfig: { thinkingBudget: 0 },
+      },
     }),
   });
+
+  clearTimeout(timeout);
 
   if (!response.ok) {
     const errBody = await response.json().catch(() => null) as { error?: { message?: string } } | null;
@@ -24,7 +38,9 @@ async function callGemini(prompt: string): Promise<string> {
   }
 
   const data = (await response.json()) as GeminiResponse;
-  return data.candidates[0].content.parts[0].text;
+  const parts = data.candidates[0].content.parts;
+  const textPart = parts.find((p) => !p.thought) ?? parts[0];
+  return textPart.text;
 }
 
 export function useAI() {

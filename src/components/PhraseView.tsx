@@ -5,39 +5,61 @@ interface PhraseViewProps {
 
 export function PhraseView({ phrase, onBack }: PhraseViewProps) {
   return (
-    <div className="flex flex-col min-h-svh bg-gradient-to-b from-[#fdf8f0] to-[#f0e6d8] items-center justify-center px-8">
-      {/* Decorative top */}
-      <div className="flex items-center gap-3 mb-12">
-        <div className="w-12 h-px bg-[#d4956a]/50" />
-        <span className="text-[#d4956a] text-xs tracking-widest" style={{ fontFamily: '"Noto Serif JP", serif' }}>己書フレーズ</span>
-        <div className="w-12 h-px bg-[#d4956a]/50" />
-      </div>
-
-      {/* Phrase card */}
-      <div className="w-full max-w-xs bg-white/60 rounded-3xl border border-[#e8d5c4] shadow-sm py-14 px-8 text-center space-y-6">
-        <p className="text-[#d4956a] text-sm tracking-[0.3em]">✦</p>
-        <p
-          className="text-[#7c3f58] leading-relaxed tracking-[0.2em]"
-          style={{ fontFamily: '"Yuji Syuku", serif', fontSize: 'clamp(1.6rem, 8vw, 2.4rem)' }}
+    <div className="flex flex-col min-h-svh bg-gradient-to-b from-[#fdf8f0] to-[#f0e6d8]">
+      {/* Header label */}
+      <div className="flex items-center justify-center gap-3 pt-12 pb-8">
+        <div className="w-10 h-px bg-[#d4956a]/50" />
+        <span
+          className="text-[#d4956a] text-xs tracking-[0.3em]"
+          style={{ fontFamily: '"Noto Serif JP", serif' }}
         >
-          {phrase}
-        </p>
-        <p className="text-[#d4956a] text-sm tracking-[0.3em]">✦</p>
+          己書フレーズ
+        </span>
+        <div className="w-10 h-px bg-[#d4956a]/50" />
       </div>
 
-      {/* Subtitle */}
-      <p
-        className="mt-8 text-[#8b6b6b] text-xs tracking-widest"
-        style={{ fontFamily: '"Noto Serif JP", serif' }}
-      >
-        この言葉を己書で書いてみよう
-      </p>
+      {/* Main area — horizontal scroll-free vertical layout */}
+      <div className="flex-1 flex items-center justify-center px-8">
+        <div className="relative flex items-center justify-center">
+          {/* Paper card */}
+          <div
+            className="bg-white/70 rounded-2xl border border-[#e8d5c4] shadow-md flex items-center justify-center"
+            style={{ width: '180px', minHeight: '340px', padding: '2rem 1.5rem' }}
+          >
+            {/* Vertical phrase */}
+            <p
+              className="text-[#7c3f58]"
+              style={{
+                fontFamily: '"Yuji Syuku", serif',
+                fontSize: '2rem',
+                lineHeight: '1.8',
+                writingMode: 'vertical-rl',
+                textOrientation: 'upright',
+                letterSpacing: '0.15em',
+              }}
+            >
+              {phrase}
+            </p>
+          </div>
 
-      <div className="mt-12 w-full max-w-xs">
+          {/* Decorative dots */}
+          <span className="absolute -top-4 left-1/2 -translate-x-1/2 text-[#d4956a] text-xs">✦</span>
+          <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-[#d4956a] text-xs">✦</span>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="px-8 pt-10 pb-10 space-y-3 text-center">
+        <p
+          className="text-[#8b6b6b] text-xs tracking-widest"
+          style={{ fontFamily: '"Noto Serif JP", serif' }}
+        >
+          この言葉を己書で書いてみよう
+        </p>
         <button
           type="button"
           onClick={onBack}
-          className="w-full py-3 rounded-2xl border border-[#e8d5c4] text-[#8b6b6b] text-sm tracking-wider hover:border-[#7c3f58] hover:text-[#7c3f58] transition-colors bg-white/50"
+          className="w-full max-w-xs mx-auto block py-3 rounded-2xl border border-[#e8d5c4] text-[#8b6b6b] text-sm tracking-wider hover:border-[#7c3f58] hover:text-[#7c3f58] transition-colors bg-white/50"
           style={{ fontFamily: '"Noto Serif JP", serif' }}
         >
           問いの一覧にもどる
