@@ -58,7 +58,7 @@ export function AnswerForm({ questionIndex, questions, onBack, onPhraseReady }: 
   const handleGeneratePhrase = async () => {
     setGeneratingPhrase(true);
     const allAnswers = getEntry(dateStr)?.answers ?? [];
-    const summary = allAnswers.map((a) => a.answer).filter(Boolean).join('。') || answer;
+    const summary = allAnswers.filter((a) => a?.answer).map((a) => a.answer).join('。') || answer;
     const phrase = await generatePhrase(summary);
     if (phrase) {
       const entry = getEntry(dateStr);
